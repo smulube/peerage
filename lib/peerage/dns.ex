@@ -30,6 +30,7 @@ defmodule Peerage.Via.Dns do
 
   defp lookup do
     hostname()
+      |> IO.inspect()
       |> String.to_charlist
       |> :inet_res.lookup(:in, :a)
       |> IO.inspect()
@@ -37,7 +38,7 @@ defmodule Peerage.Via.Dns do
 
   # turn list of ips into list of node names
   defp to_names([ip | rest], acc) when is_list(acc) do
-    Logger.debug " -> Peerage.Via.Dns resolved '#{hostname()}' to #{ to_s(ip) } "
+    Logger.info " -> Peerage.Via.Dns resolved '#{hostname()}' to #{ to_s(ip) } "
     to_names rest, [:"#{ app_name() }@#{ to_s(ip) }"] ++ acc
   end
   defp to_names([], lst), do: lst
