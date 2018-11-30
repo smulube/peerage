@@ -58,9 +58,11 @@ defmodule Peerage.Server do
       """
     end
   end
+
   defp log_one([s,ok]) do
     "     " <> String.pad_trailing("#{s}",20) <> String.pad_trailing("#{ok}",10)
   end
+
   defp vsn, do: Application.spec(:peerage)[:vsn]
 
   defp only_fresh_node_names(ps) do
@@ -69,6 +71,7 @@ defmodule Peerage.Server do
     |> MapSet.difference(MapSet.new(Node.list))
     |> MapSet.to_list
   end
+
   defp provider do
     Application.get_env(:peerage, :via, Peerage.Via.Self)
   end
@@ -78,6 +81,7 @@ defmodule Peerage.Server do
   end
 
   defp connect_to_node(node_name) do
+    Logger.info "Attempting to connect to #{node_name}"
     # Avoid self connecting.
     if node() != node_name do
       Node.connect(node_name)

@@ -44,7 +44,7 @@ defmodule Peerage do
   def start(_type, _args) do
 
     DeferredConfig.populate(:peerage)
-    # IO.inspect Application.get_all_env :peerage
+    IO.inspect Application.get_all_env :peerage
     opts = [strategy: :one_for_one, name: Peerage.Supervisor]
     Supervisor.start_link(children(serves?()), opts)
   end

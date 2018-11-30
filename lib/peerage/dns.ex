@@ -29,7 +29,10 @@ defmodule Peerage.Via.Dns do
   def poll, do: lookup() |> to_names([])
 
   defp lookup do
-    hostname() |> String.to_charlist |> :inet_res.lookup(:in, :a)
+    hostname()
+      |> String.to_charlist
+      |> :inet_res.lookup(:in, :a)
+      |> IO.inspect()
   end
 
   # turn list of ips into list of node names
@@ -44,8 +47,10 @@ defmodule Peerage.Via.Dns do
   defp app_name do
     Application.get_env(:peerage, :app_name, "nonode")
   end
+
   defp hostname do
     Application.get_env(:peerage, :dns_name, "localhost")
   end
+
   defp to_s(_ip = {a,b,c,d}), do: "#{a}.#{b}.#{c}.#{d}"
 end
